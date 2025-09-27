@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-#from selenium.webdriver import ActionChains
 import time
 
 
@@ -16,13 +15,13 @@ try:
 
     # 2. Navigate to Buttons
     ########################
-    buttons_screen = driver.find_element(By.XPATH, "/html/body/div[2]/div/div/div/div[1]/div/div/div[1]/div/ul/li[5]/span" )
+    buttons_screen = driver.find_element(By.ID, "item-4" )
     #buttons_screen = driver.find_element(By.CLASS_NAME, "text-center")
     buttons_screen.click()
     time.sleep(3)
 
     # verify correct page is opened
-    page_name = driver.find_element(By.XPATH, "/html/body/div[2]/div/div/div/div[2]/div[2]/h1")
+    page_name = driver.find_element(By.CLASS_NAME, "text-center")
     page_name_text = page_name.text
     assert page_name.is_displayed()
     print("Opened page should be [Buttons]")
@@ -30,18 +29,11 @@ try:
 
     # 3. Click on Click Me
     ######################
-    # click_buttons = driver.find_elements(By.CLASS_NAME, "btn btn-primary")
-    # for click_button in click_buttons:
-    #     click_buttons[2].click()
-
     click_me_button = driver.find_element(By.XPATH, "//button[text()='Click Me']")
     #### scroll till the element is visible
-    # ActionChains(driver).move_to_element(click_me_button).perform()
     driver.execute_script("arguments[0].scrollIntoView();", click_me_button )
-
     click_me_button.click()
     time.sleep(3)
-
 
     # 4. Verify that it is clicked (Click Me)
     #########################################
@@ -59,17 +51,13 @@ try:
 
     # 6. Click on Impressive Radio Button
     #####################################
-    radio_buttons = driver.find_elements(By.CLASS_NAME, "custom-control-label")
-
-    for radio_button in radio_buttons:
-        #ActionChains(driver).move_to_element(radio_button).perform()
-        driver.execute_script("arguments[0].scrollIntoView();", radio_button)
-        radio_buttons[1].click()
+    radio_button = driver.find_element(By.XPATH, "//label[text()='Impressive']")
+    radio_button.click()
     time.sleep(3)
 
     # 7. Verify the result
     ######################
-    verification = driver.find_element(By.CLASS_NAME, "mt-3") and driver.find_element(By.CLASS_NAME, "text-success")
+    verification = driver.find_element(By. XPATH, "//span[text()='Impressive']")
     verification_text = verification.text
     assert verification.is_displayed()
     print("The text after selecting 'Impressive' radio button should be: [You have selected Impressive]")
