@@ -22,7 +22,7 @@ try:
 # 4. Verify the title
     title = driver.title
     print("Title: ", title)
-    assert title in "ArmSTQB"
+    assert "ArmSTQB" in title
     print(" ✅ Test Passed, current title is: ", title)
 
 # 5. Create a new tab and navigate to https://www.armstqb.org/partners
