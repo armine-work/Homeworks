@@ -21,10 +21,12 @@ try:
     frame_1 = driver.find_element(By.ID, "frame1")
     # print(f"✅ Frame 1: {frame_1.text} \n")
     driver.switch_to.frame(frame_1)
+    #print("1.1, current page URL:", driver.current_url)
     ###### work in iframe
     text_in_frame_1 = driver.find_element(By.ID, "sampleHeading")
     print(f"✅ The text in frame_1 is: {text_in_frame_1.text}")
     driver.switch_to.default_content()
+    #print("1:2 current page URL is:", driver.current_url)
 
     driver.get("https://demoqa.com/alerts")
     button_click_me = driver.find_element(By.ID, "timerAlertButton")
@@ -51,7 +53,7 @@ try:
     handler_main = driver.current_window_handle
     driver.switch_to.new_window("tab")
     driver.get("https://demoqa.com/alerts")
-
+    #print("2:1. current page url is:", driver.current_url)
 
     button_click = driver.find_element(By.ID, "alertButton").click()
     alert_2 = driver.switch_to.alert
@@ -60,6 +62,7 @@ try:
     sleep(2)
 
     driver.switch_to.window(handler_main)
+    print("current page is:", driver.title)
     sleep(5)
     print("Exersice 2 done! \n")
 
@@ -74,11 +77,11 @@ try:
     print("Exercise 3 started...")
     driver.get("https://demoqa.com/browser-windows")
     original_window = driver.current_window_handle
-
+    #print("3.1 current page url is:", driver.current_url)
     click_button = driver.find_element(By.ID, "windowButton")
     driver.execute_script("arguments[0].scrollIntoView(true);", click_button)
     click_button.click()
-
+    #print("3.2 current page url is:", driver.current_url)
     # new_window = driver.current_window_handle
     # driver.switch_to.window(new_window)
 
@@ -86,16 +89,17 @@ try:
     for window_handle in all_windows_handles:
         if window_handle != original_window:
             driver.switch_to.window(window_handle)
+            #print("3.3.0 current page url is:", driver.current_url)
             break
-
-    text_new_window = driver.find_element(By.XPATH, "//h1[@id='sampleHeading']")
+    #print("3.3 current page url is:", driver.current_url)
+    text_new_window = driver.find_element(By.XPATH, "//h1[@class='text-center']")
     print(f"✅ The message in a new window is: {text_new_window.text} \n")
 
     driver.switch_to.window(original_window)
     print(f"The original window title is:{driver.title} \n")
     print("Exersice 3 done! \n")
-
-
+    print("3.4 current page url is:", driver.current_url)
+    #
     # 4. https://demoqa.com/frames
     #     1. Switch to "frame1" → get the text.
     #     2. Switch to "frame2" → get the text.
@@ -147,6 +151,7 @@ try:
     print(f"✅ Alert is: {alert_2_5.text}")
     alert_2_5.dismiss()
     driver.switch_to.default_content()
+
 
     confirmation = driver.find_element(By.ID, "confirmResult")
     confirmation_text = confirmation.text
