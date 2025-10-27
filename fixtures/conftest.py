@@ -43,3 +43,10 @@ def setup_driver(request):
     yield driver
 
     driver.quit()
+
+@pytest.fixture(autouse=True)
+def add_screenshot_on_fail(request, driver):
+    yield
+    if request.node.rep_call.faild:
+        driver.save_screenshot(f"screenshot_{request.node.name}.png")
+
