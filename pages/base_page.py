@@ -1,3 +1,4 @@
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common import NoSuchElementException, TimeoutException
@@ -14,28 +15,56 @@ class BasePage:
     def click(self, locator):
         self.wait.until(EC.element_to_be_clickable(locator)).click()
 
-    # def get_element_text(self, locator):
-    #     self.wait.until(EC.presence_of_element_located(locator))
+
+    def double_click(self, locator):
+        element = self.wait.until(EC.element_to_be_clickable(locator))
+        actions = ActionChains(self.driver)
+        actions.double_click(element).perform()
+
+
+    def right_click(self, locator):
+        element = self.wait.until(EC.element_to_be_clickable(locator))
+        actions = ActionChains(self.driver)
+        actions.context_click(element).perform()
+
 
     def type_text(self, locator, text):
         element = self.wait.until(EC.visibility_of_element_located(locator))
         element.clear()
         element.send_keys(text)
 
+
     def get_text(self, locator):
         element = self.wait.until(EC.visibility_of_element_located(locator))
+        return element.text
+
+
+    def get_text_of_disabled_element(self, locator):
+        element = self.wait.until(EC.presence_of_element_located(locator))
         return element.text
 
     def scroll_to_element(self, locator):
         element = self.driver.find_element(*locator)
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
 
+
     def is_element_visible(self, locator, timeout=10):
         try:
-            WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+            WebDriverWait(self.driver, timeout).until(
+                EC.visibility_of_element_located(locator))
             return True
         except TimeoutException:
             return False
+
+
+    def is_element_present(self, locator, timeout=10):
+        try:
+            WebDriverWait(self.driver, timeout).until(
+                EC.presence_of_element_located(locator))
+            return True
+        except TimeoutException:
+            return False
+
 
     def is_url_contains(self, text, timeout=10):
         try:
@@ -45,5 +74,9 @@ class BasePage:
             return False
 
 
+    def is_new_tab_opened(self, old_handlers):
 
-
+        WebDriverWait(self.driver, 10).until(EC.number_of_windows_to_be(len(old_handlers) + 1))
+        new_handles = self.driver.window_handles
+        new_tab_handle = [handle for handle in new_handles if handle not in old_handlers][0]
+        return new_tab_handle
