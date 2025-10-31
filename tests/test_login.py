@@ -21,13 +21,14 @@ def test_login_flow(setup_driver, username, password, expected_success):
 
     #verify the Login button is visible
     assert login_page.is_login_button_displayed(), "❌ Login page was not loaded"
+
     # verify Login functionality
     login_page.login(username, password)
-    #verify the Logout button is visible after successfully logging in
 
+    #verify the Logout button is visible after successfully logging in
     if expected_success:
         assert login_page.is_logout_loaded(), f"❌ Profile page was not loaded"
-        print(f"✅ {username} is logged in. The logout button is displayed: [{login_page.get_text(LoginPage.LOGOUT_BUTTON)}]")
+        print(f"✅ {username} is logged in. The logout button is displayed: [{login_page.get_text(LoginPage.LOGOUT_BUTTON)}].\n")
     else:
         assert login_page.is_login_error_displayed(), f" ❌ Error text was not shown for invalid username/password"
-        print(f"✅ The Error message is displayed: [{login_page.get_error_message()}]")
+        print(f"✅ The Error message is displayed: [{login_page.get_error_message()}].\n")

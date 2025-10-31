@@ -23,12 +23,12 @@ def setup_driver(request):
     # firefox_options.add_argument("--headless")
     firefox_options.add_argument("--width=1920")
     firefox_options.add_argument("--height=1080")
-    firefox_options.add_argument("--disable-extensions")
+    firefox_options.add_argument("-private")
     ############################################## Edge options
     edge_options = EdgeOptions()
     # edge_options.add_argument("--headless")
     edge_options.add_argument("--start-maximized")
-    edge_options.add_argument("--incognito")
+    edge_options.add_argument("-private")
 
     browser = request.param
     if browser == "firefox":
